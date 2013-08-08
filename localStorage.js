@@ -47,7 +47,7 @@ var storage=(function(){
 				this.refresh();
 			},
 			remove:function(key){
-				console.log(this.userData.removeAttribute(key));
+				this.userData.removeAttribute(key);
 				this.userData.save("oXMLBranch");
 				this.refresh();
 			},
