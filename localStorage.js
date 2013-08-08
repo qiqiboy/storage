@@ -62,7 +62,7 @@ var storage=(function(){
 	}
 	
 	var i=0,
-		len=storage.length,
+		len=storage && storage.length || 0,
 		key;
 	for(;i<len;i++){
 		key=storage.key(i);
