@@ -46,7 +46,7 @@ var storage=(function(){
 				this.userData.save("oXMLBranch");
 				this.refresh();
 			},
-			remove:function(key){
+			removeItem:function(key){
 				this.userData.removeAttribute(key);
 				this.userData.save("oXMLBranch");
 				this.refresh();
@@ -85,7 +85,7 @@ var storage=(function(){
 			return storages;
 		},
 		remove:function(key){
-			storage.remove(key);
+			storage.removeItem(key);
 			delete storages[key];
 			return storages;
 		},
