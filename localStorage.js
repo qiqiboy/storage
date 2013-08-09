@@ -3,7 +3,7 @@
  * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/08/08
  */
 var storage=(function(){
-	var storage=window.localStorage || window.globalStorage && window.globalStorage[location.hostname],
+	var storage,//=window.localStorage || window.globalStorage && window.globalStorage[location.hostname],
 		storages={};
 	if(!storage){
 		storage={
@@ -20,6 +20,7 @@ var storage=(function(){
 				
 				try{
 					userData.load("oXMLBranch");
+					this.storeNode=userData.xmlDocument.firstChild;
 				}catch(e){
 					return null;	
 				}
@@ -27,16 +28,11 @@ var storage=(function(){
 				return this.refresh();
 			},
 			refresh:function(){
-				var attrs=this.userData.xmlDocument.firstChild.attributes, i, j;
-				this.length=i=attrs.length;
-				while(i){
-					j=attrs[--i].nodeName;
-					this[i]=this.userData.getAttribute(j);
-				}
+				this.length=this.storeNode.attributes.length;
 				return this;
 			},
 			key:function(i){
-				return this.userData.xmlDocument.firstChild.attributes[i].nodeName;
+				return this.storeNode.attributes[i].nodeName;
 			},
 			getItem:function(key){
 				return this.userData.getAttribute(key);
@@ -53,10 +49,8 @@ var storage=(function(){
 			},
 			clear:function(){
 				for(var key in storages){
-					this.userData.removeAttribute(key);
+					this.removeItem(key);
 				}
-				this.userData.save("oXMLBranch");
-				this.refresh();
 			}
 		}.init();
 	}
