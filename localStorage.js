@@ -70,8 +70,7 @@ var storage=(function(){
 			return storages[key]!=null;
 		},
 		get:function(key){
-			var value=storage.getItem(key);
-			return value==null?null:value;
+			return storages[key]
 		},
 		set:function(key,value){
 			storage.setItem(key,value);
