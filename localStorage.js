@@ -3,7 +3,7 @@
  * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/08/12
  */
 var storage=(function(){
-	var storage=0,//window.localStorage || window.globalStorage && window.globalStorage[location.hostname],
+	var storage=window.localStorage || window.globalStorage && window.globalStorage[location.hostname],
 		getStorages=function(){
 			var storages={},
 				i=0,
