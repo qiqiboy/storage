@@ -12,9 +12,9 @@ storage
 
 storage.get(key); //获取名字为 key 的storage的值
 
-storage.set(key,value); //添加或修改一个名字为 key， 值为 value 的storage
+storage.set(key,value); //添加或修改一个名字为 key， 值为 value 的storage，true表示设置成功，false表示设置失败
 
-storage.remove(key,value); //删除名字为 key 的storage
+storage.remove(key,value); //删除名字为 key 的storage，true表示删除成功，false表示删除失败
 
 storage.clear(); //清除所有的storage
 

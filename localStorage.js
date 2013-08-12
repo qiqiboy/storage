@@ -1,10 +1,21 @@
 /**
- * storage v1.1.0
- * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/08/08
+ * storage v1.2
+ * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/08/12
  */
 var storage=(function(){
-	var storage=window.localStorage || window.globalStorage && window.globalStorage[location.hostname],
-		storages={};
+	var storage=0,//window.localStorage || window.globalStorage && window.globalStorage[location.hostname],
+		getStorages=function(){
+			var storages={},
+				i=0,
+				len=storage && storage.length || 0,
+				key;
+			for(;i<len;i++){
+				key=storage.key(i);
+				storages[key]=storage.getItem(key);
+			}
+			return storages;
+		}
+		
 	if(!storage){
 		storage={
 			length:0,
@@ -48,46 +59,41 @@ var storage=(function(){
 				this.refresh();
 			},
 			clear:function(){
-				for(var key in storages){
-					this.removeItem(key);
+				var len=this.length,
+					i=0;
+				while(i++<len && this.length){
+					this.removeItem(this.key(0));
 				}
 			}
 		}.init();
 	}
 	
-	var i=0,
-		len=storage && storage.length || 0,
-		key;
-	for(;i<len;i++){
-		key=storage.key(i);
-		storages[key]=storage.getItem(key);
-	}
-	
 	return storage && {
 		storage:storage,
-		storages:storages,
+		refresh:function(){
+			this.storages=getStorages();
+			return this;
+		},
 		has:function(key){
-			return storages[key]!=null;
+			return this.storages[key]!=null;
 		},
 		get:function(key){
-			return storages[key]
+			return this.storages[key]
 		},
 		set:function(key,value){
 			storage.setItem(key,value);
-			storages[key]=value;
-			return storages;
+			return this.refresh().has(key);
 		},
 		remove:function(key){
 			storage.removeItem(key);
-			delete storages[key];
-			return storages;
+			return !this.refresh().has(key);
 		},
 		clear:function(){
 			storage.clear();
-			return this.storages=storages={};
+			return this.refresh();
 		},
 		size:function(){
 			return storage.length;
 		}
-	}
+	}.refresh();
 })();
