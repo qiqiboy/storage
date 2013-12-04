@@ -23,15 +23,18 @@
 		document.writeln(key+':'+mystorage.storages[key]);
 	}
 
+	function rand(num){
+		return Math.floor(Math.random()*num);
+	}
 	
 	function createCookie(){
-		storage.set('test1',1);
-		storage.set('test2',2);
-		storage.set('test3',3);
+		storage.set('test'+rand(100),Math.random());
+		storage.set('test'+rand(100),Math.random());
+		storage.set('test'+rand(100),Math.random());
 		
-		mystorage.set('test1',1);
-		mystorage.set('test2',2);
-		mystorage.set('test3',3);
+		mystorage.set('test'+rand(100),Math.random());
+		mystorage.set('test'+rand(100),Math.random());
+		mystorage.set('test'+rand(100),Math.random());
 		
 		location.reload();
 	}
@@ -54,6 +57,6 @@ function createCookie(){
 </pre>
 <p>清除页面中所有storage：<button onclick="storage.clear();location.reload();">清除全部storage</button></p>
 <p>清除页面中myName下的storage：<button onclick="mystorage.clear();location.reload();">清除mystorage</button></p>
-<p>删除页面中myName下tes2：<button onclick="mystorage.remove('test2');alert('mystorage当前长度为：'+mystorage.size());location.reload();">删除test2</button></p>
+<p>删除页面中myName下某个存储：<input id="thename" placeholder="请输入键值" /><button onclick="if(this.previousSibling.value)mystorage.remove(this.previousSibling.value);location.reload();">删除</button></p>
 </body>
 </html>
