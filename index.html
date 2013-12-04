@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>storage</title>
+<script src="src/storage.js"></script>
+</head>
+
+<body>
+<h1>storage test</h1>
+<p>如何调用？（你可以查看本页面源代码来查看js代码调用示例）</p>
+<pre>
+<script type="text/javascript">
+	var key;
+	document.write('<h3>当前页面中所有storage如下：</h3>');
+	for(key in storage.storages){
+		document.writeln(key+':'+storage.storages[key]);
+	}
+
+	var mystorage=storage('myName');
+	document.write('<h3>当前页面"myName"下的storage如下：</h3>');
+	for(key in mystorage.storages){
+		document.writeln(key+':'+mystorage.storages[key]);
+	}
+
+	
+	function createCookie(){
+		storage.set('test1',1);
+		storage.set('test2',2);
+		storage.set('test3',3);
+		
+		mystorage.set('test1',1);
+		mystorage.set('test2',2);
+		mystorage.set('test3',3);
+		
+		location.reload();
+	}
+	
+</script>
+
+</pre>
+<p>如果页面中没有cookie，可以点此按钮先种下一些随机cookie：<button onclick="createCookie();">生成storage</button></p>
+<pre>
+生成cookie代码如下：
+function createCookie(){
+    COOKIE.set('test1',1);
+    COOKIE.set('test2',2);
+    COOKIE.set('test3',3);
+    
+    mystorage.set('test1',1);
+    mystorage.set('test2',2);
+    mystorage.set('test3',3);
+}
+</pre>
+<p>清除页面中所有storage：<button onclick="storage.clear();location.reload();">清除全部storage</button></p>
+<p>清除页面中myName下的storage：<button onclick="mystorage.clear();location.reload();">清除mystorage</button></p>
+<p>删除页面中myName下tes2：<button onclick="mystorage.remove('test2');alert('mystorage当前长度为：'+mystorage.size());location.reload();">删除test2</button></p>
+</body>
+</html>
