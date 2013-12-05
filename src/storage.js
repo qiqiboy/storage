@@ -1,9 +1,9 @@
 /**
- * storage v2.0
+ * storage v2.1
  * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/12/03
  */
-
-var storage=(function(ROOT, Struct, undefined){
+;
+(function(ROOT, Struct, NS, undefined){
 	"use strict";
 	
 	var doc=ROOT.document,
@@ -168,10 +168,11 @@ var storage=(function(ROOT, Struct, undefined){
 		Struct[prop]=fn[prop];
 	}
 	
-	return Struct.init();
+	return ROOT[NS]=Struct.init();
+	
 })(window, function(name){
 	if(!(this instanceof arguments.callee)){
 		return new arguments.callee(name);
 	}
 	this.init(name);
-});
+}, 'storage');
