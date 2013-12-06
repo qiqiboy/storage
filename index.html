@@ -11,18 +11,19 @@
 <p>如何调用？（你可以查看本页面源代码来查看js代码调用示例）</p>
 <pre>
 <script type="text/javascript">
-	var key;
-	document.write('<h3>当前页面中所有storage如下：</h3>');
-	for(key in storage.storages){
-		document.writeln(key+':'+storage.storages[key]);
+	if(storage.support){
+		var key;
+		document.write('<h3>当前页面中所有storage如下：</h3>');
+		for(key in storage.storages){
+			document.writeln(key+':'+storage.storages[key]);
+		}
+	
+		var mystorage=storage('myName');
+		document.write('<h3>当前页面"myName"下的storage如下：</h3>');
+		for(key in mystorage.storages){
+			document.writeln(key+':'+mystorage.storages[key]);
+		}
 	}
-
-	var mystorage=storage('myName');
-	document.write('<h3>当前页面"myName"下的storage如下：</h3>');
-	for(key in mystorage.storages){
-		document.writeln(key+':'+mystorage.storages[key]);
-	}
-
 	function rand(num){
 		return Math.floor(Math.random()*num);
 	}

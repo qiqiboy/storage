@@ -168,7 +168,15 @@
 		Struct[prop]=fn[prop];
 	}
 	
-	return ROOT[NS]=Struct.init();
+	return ROOT[NS]=function(){
+		try{
+			this.init().set('__storage__','just for test');
+			this.support=this.has('__storage__') && this.remove('__storage__');
+		}catch(e){
+			this.support=false;
+		}
+		return this;
+	}.call(Struct);
 	
 })(window, function(name){
 	if(!(this instanceof arguments.callee)){
