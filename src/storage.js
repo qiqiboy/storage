@@ -23,7 +23,7 @@
 			getStorages:function(){
 				var storages=this.storages=[],
 					i=0,j=storage.length,key,_key,
-					testReg=new RegExp('^'+this.name.replace(/([\.\?\+\*/])/g,"\\$1"),'i');
+					testReg=new RegExp('^'+this.name.replace(/([\.\?\+\*\[\]\(\)\^\$\/])/g,"\\$1"),'i');
 				for(;i<j;i++){
 					key=storage.key(i);
 					if(testReg.test(key)){
@@ -123,7 +123,16 @@
 		constructor:Struct,
 		init:function(name){
 			this.storage=getStorage(name||'');
-			return this.refresh();
+			return this.test();
+		},
+		test:function(){
+			try{
+				this.set('__storage__','just for test');
+				this.support=this.has('__storage__') && this.remove('__storage__');
+			}catch(e){
+				this.support=false;
+			}
+			return this;
 		},
 		refresh:function(){
 			this.storages=this.getStorages();
@@ -168,15 +177,7 @@
 		Struct[prop]=fn[prop];
 	}
 	
-	return ROOT[NS]=function(){
-		try{
-			this.init().set('__storage__','just for test');
-			this.support=this.has('__storage__') && this.remove('__storage__');
-		}catch(e){
-			this.support=false;
-		}
-		return this;
-	}.call(Struct);
+	return ROOT[NS]=Struct.init();
 	
 })(window, function(name){
 	if(!(this instanceof arguments.callee)){
