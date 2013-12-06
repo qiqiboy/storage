@@ -127,8 +127,9 @@
 		},
 		test:function(){
 			try{
-				this.set('__storage__','just for test');
-				this.support=this.has('__storage__') && this.remove('__storage__');
+				this.support=this.set('__storage__','just for test') 
+					&& this.has('__storage__') 
+					&& this.remove('__storage__');
 			}catch(e){
 				this.support=false;
 			}
