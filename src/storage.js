@@ -59,7 +59,7 @@
 				}else{
 					storage.clear();
 				}
-				return this;
+				return this.getStorages();
 			}
 		} : {
 				length:0,
@@ -99,27 +99,27 @@
 				setItem:function(key,value){
 					this.load();
 					this.userData.setAttribute(key,value);
-					this.save();
+					return this.save();
 				},
 				removeItem:function(key){
 					this.load();
 					this.userData.removeAttribute(key);
-					this.save();;
+					return this.save();;
 				},
 				clear:function(){
 					this.load();
 					this.userData.xmlDocument.removeChild(this.storeNode);
-					this.save();
+					return this.save();
 				},
 				save:function(){
 					this.userData.save("oXMLBranch"+this.name);
-					this.refresh();
+					return this.refresh();
 				}
 			} ).init();
 	}
 	
 	var prop, fn={
-		version:"2.0",
+		version:"2.1",
 		constructor:Struct,
 		init:function(name){
 			this.storage=getStorage(name||'');
@@ -155,7 +155,7 @@
 		},
 		clear:function(){
 			this.storage.clear();
-			return this.refresh();
+			return !this.refresh().size();
 		},
 		size:function(){
 			return this.storage.length;
