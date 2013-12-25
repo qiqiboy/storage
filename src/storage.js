@@ -127,7 +127,7 @@
 		},
 		test:function(){
 			try{
-				this.support=this.set('^_^',1) && this.remove('^_^');
+				this.support=this.set('__storage__',1) && this.remove('__storage__');
 			}catch(e){
 				this.support=false;
 			}
