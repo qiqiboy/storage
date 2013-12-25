@@ -23,7 +23,7 @@
 			getStorages:function(){
 				var storages=this.storages=[],
 					i=0,j=storage.length,key,_key,
-					testReg=new RegExp('^'+this.name.replace(/([\.\?\+\*\[\]\(\)\^\$\/])/g,"\\$1"),'i');
+					testReg=new RegExp('^'+this.name.replace(/([\.\?\+\*\[\]\(\)\^\$\/\|\\])/g,"\\$1"),'i');
 				for(;i<j;i++){
 					key=storage.key(i);
 					if(testReg.test(key)){
@@ -127,9 +127,7 @@
 		},
 		test:function(){
 			try{
-				this.support=this.set('__storage__','just for test') 
-					&& this.has('__storage__') 
-					&& this.remove('__storage__');
+				this.support=this.set('^_^',1) && this.remove('^_^');
 			}catch(e){
 				this.support=false;
 			}
