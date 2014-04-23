@@ -90,20 +90,20 @@
 				},
 				key:function(i){
 					this.load();
-					return this.storeNode.attributes[i].nodeName;
+					return this.storeNode.attributes[i].nodeName.replace(/^_/,'');
 				},
 				getItem:function(key){
 					this.load();
-					return this.userData.getAttribute(key);
+					return this.userData.getAttribute('_'+key);
 				},
 				setItem:function(key,value){
 					this.load();
-					this.userData.setAttribute(key,value);
+					this.userData.setAttribute('_'+key,value);
 					return this.save();
 				},
 				removeItem:function(key){
 					this.load();
-					this.userData.removeAttribute(key);
+					this.userData.removeAttribute('_'+key);
 					return this.save();;
 				},
 				clear:function(){
@@ -119,7 +119,7 @@
 	}
 	
 	var prop, fn={
-		version:"2.1",
+		version:"2.3",
 		constructor:Struct,
 		init:function(name){
 			this.storage=getStorage(name||'');
@@ -144,11 +144,11 @@
 			return this.storages[key];
 		},
 		set:function(key,value){
-			this.storage.setItem('_'+key,value);
+			this.storage.setItem(key,value);
 			return this.refresh().has(key);
 		},
 		remove:function(key){
-			this.storage.removeItem('_'+key);
+			this.storage.removeItem(key);
 			return !this.refresh().has(key);
 		},
 		clear:function(){
@@ -162,14 +162,16 @@
 			var storages={},
 				storage=this.storage,
 				i=0,
-				len=storage && storage.length || 0;
+				len=storage && storage.length || 0,
+                key;
 			for(;i<len;i++){
-				storages[this.key(i)]=storage.getItem(storage.key(i));
+                key=storage.key(i);
+				storages[key]=storage.getItem(key);
 			}
 			return storages;
 		},
         key:function(i){
-            return this.storage.key(i).replace(/^_/,'');
+            return this.storage.key(i);
         }
 	}
 	
