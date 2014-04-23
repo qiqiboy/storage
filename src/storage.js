@@ -13,30 +13,30 @@
 	
 	var getStorage=function(name){
 		return ( storage ? {
-			length: 0,
-			storages: [],
+			length:0,
 			init:function(){
 				this.name=name?name+'/':'';
 				this.getStorages();
 				return this;
 			},
 			getStorages:function(){
-				var storages=this.storages=[],
+				var storages=this.storages={},
+                    keys=this.keys=[],
 					i=0,j=storage.length,key,_key,
 					testReg=new RegExp('^'+this.name.replace(/([\.\?\+\*\[\]\(\)\^\$\/\|\\])/g,"\\$1"),'i');
 				for(;i<j;i++){
 					key=storage.key(i);
 					if(testReg.test(key)){
 						_key=key.replace(testReg,'');
-						storages.push(_key);
+						keys.push(_key);
 						storages[_key]=storage.getItem(key);
 					}
 				}
-				this.length=storages.length;
+				this.length=keys.length;
 				return this;
 			},
 			key:function(i){
-				return this.storages[i];
+				return this.keys[i];
 			},
 			getItem:function(key){
 				return this.storages[key];
@@ -144,11 +144,11 @@
 			return this.storages[key];
 		},
 		set:function(key,value){
-			this.storage.setItem(key,value);
+			this.storage.setItem('_'+key,value);
 			return this.refresh().has(key);
 		},
 		remove:function(key){
-			this.storage.removeItem(key);
+			this.storage.removeItem('_'+key);
 			return !this.refresh().has(key);
 		},
 		clear:function(){
@@ -162,14 +162,15 @@
 			var storages={},
 				storage=this.storage,
 				i=0,
-				len=storage && storage.length || 0,
-				key;
+				len=storage && storage.length || 0;
 			for(;i<len;i++){
-				key=storage.key(i);
-				storages[key]=storage.getItem(key);
+				storages[this.key(i)]=storage.getItem(storage.key(i));
 			}
 			return storages;
-		}
+		},
+        key:function(i){
+            return this.storage.key(i).replace(/^_/,'');
+        }
 	}
 	
 	for(prop in fn){
