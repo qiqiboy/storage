@@ -1,5 +1,5 @@
 /**
- * storage v2.1
+ * storage v2.3
  * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/12/03
  */
 ;
