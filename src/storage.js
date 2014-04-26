@@ -1,5 +1,5 @@
 /**
- * storage v2.1
+ * storage v2.3
  * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/12/03
  */
 ;
@@ -13,30 +13,30 @@
 	
 	var getStorage=function(name){
 		return ( storage ? {
-			length: 0,
-			storages: [],
+			length:0,
 			init:function(){
 				this.name=name?name+'/':'';
 				this.getStorages();
 				return this;
 			},
 			getStorages:function(){
-				var storages=this.storages=[],
+				var storages=this.storages={},
+                    keys=this.keys=[],
 					i=0,j=storage.length,key,_key,
 					testReg=new RegExp('^'+this.name.replace(/([\.\?\+\*\[\]\(\)\^\$\/\|\\])/g,"\\$1"),'i');
 				for(;i<j;i++){
 					key=storage.key(i);
 					if(testReg.test(key)){
 						_key=key.replace(testReg,'');
-						storages.push(_key);
+						keys.push(_key);
 						storages[_key]=storage.getItem(key);
 					}
 				}
-				this.length=storages.length;
+				this.length=keys.length;
 				return this;
 			},
 			key:function(i){
-				return this.storages[i];
+				return this.keys[i];
 			},
 			getItem:function(key){
 				return this.storages[key];
@@ -90,20 +90,20 @@
 				},
 				key:function(i){
 					this.load();
-					return this.storeNode.attributes[i].nodeName;
+					return this.storeNode.attributes[i].nodeName.replace(/^_/,'');
 				},
 				getItem:function(key){
 					this.load();
-					return this.userData.getAttribute(key);
+					return this.userData.getAttribute('_'+key);
 				},
 				setItem:function(key,value){
 					this.load();
-					this.userData.setAttribute(key,value);
+					this.userData.setAttribute('_'+key,value);
 					return this.save();
 				},
 				removeItem:function(key){
 					this.load();
-					this.userData.removeAttribute(key);
+					this.userData.removeAttribute('_'+key);
 					return this.save();;
 				},
 				clear:function(){
@@ -119,7 +119,7 @@
 	}
 	
 	var prop, fn={
-		version:"2.1",
+		version:"2.3",
 		constructor:Struct,
 		init:function(name){
 			this.storage=getStorage(name||'');
@@ -163,13 +163,16 @@
 				storage=this.storage,
 				i=0,
 				len=storage && storage.length || 0,
-				key;
+                key;
 			for(;i<len;i++){
-				key=storage.key(i);
+                key=storage.key(i);
 				storages[key]=storage.getItem(key);
 			}
 			return storages;
-		}
+		},
+        key:function(i){
+            return this.storage.key(i);
+        }
 	}
 	
 	for(prop in fn){
