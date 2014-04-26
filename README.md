@@ -34,3 +34,6 @@ if(mystorage.support){
 
 }
 ````
+
+## DEMO 
+http://u.boy.im/storage/
