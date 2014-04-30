@@ -51,6 +51,8 @@ iframe.onload=iframe.onreadystatechange=function(){//确保iframe加载完毕
 	}
 }
 iframe.src='/myPorxy.html';//使用根一级页面作为代理
+document.body.appendChild(iframe);
+
 ````
 
 ## DEMO 
