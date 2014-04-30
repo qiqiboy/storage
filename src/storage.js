@@ -65,13 +65,10 @@
 				length:0,
 				userData:proxy || doc.getElementsByTagName('head')[0],
 				init:function(){
-					var userData=this.userData;
 					this.name=name?'_'+name:'';
-
 					try{
-						userData.addBehavior("#default#userdata");
+						this.userData.addBehavior("#default#userdata");
 					}catch(e){}
-
 					this.refresh();
 
 					return this;
