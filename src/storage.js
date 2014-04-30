@@ -1,5 +1,5 @@
 /**
- * storage v2.3
+ * storage v2.4
  * By qiqiboy, http://www.qiqiboy.com, http://weibo.com/qiqiboy, 2013/12/03
  */
 ;
@@ -11,7 +11,7 @@
 	
 	Struct.prototype=Struct;
 	
-	var getStorage=function(name){
+	var getStorage=function(name,proxy){
 		return ( storage ? {
 			length:0,
 			init:function(){
@@ -63,18 +63,17 @@
 			}
 		} : {
 				length:0,
-				userData:doc.getElementsByTagName('head')[0],
+				userData:proxy || doc.getElementsByTagName('head')[0],
 				init:function(){
 					var userData=this.userData;
 					this.name=name?'_'+name:'';
+
 					try{
-						if(!Struct.loaded){
-							userData.addBehavior("#default#userdata");
-							Struct.loaded=true;
-						}
-						this.refresh();
+						userData.addBehavior("#default#userdata");
 					}catch(e){}
-					
+
+					this.refresh();
+
 					return this;
 				},
 				load:function(){
@@ -119,10 +118,14 @@
 	}
 	
 	var prop, fn={
-		version:"2.3",
+		version:"2.4",
 		constructor:Struct,
-		init:function(name){
-			this.storage=getStorage(name||'');
+		init:function(name,proxy){
+            if(typeof name!='string'){
+                proxy=name;
+                name='';
+            }
+			this.storage=getStorage(name,proxy);
 			return this.test();
 		},
 		test:function(){
