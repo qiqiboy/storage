@@ -33,6 +33,24 @@ if(mystorage.support){
 	mystorage.size(); //返回已存储的storage数量
 
 }
+
+
+//v2.4新增
+//支持代理功能，主要是为了ie下的userdata跨页面数据互访
+//userdata只允许向上访问，不允许向下以及同级互访，所有如果如果涉及到跨页面数据共享，就需要指定一个页面节点作为代理
+//该代理一般是使用iframe中节点
+var iframe=docuemnt.createElement('iframe');
+iframe.style.display='none';
+iframe.onload=iframe.onreadystatechange=function(){//确保iframe加载完毕
+    if(iframe&&iframe.readyState&&iframe.readyState!='loaded'&&iframe.readyState!='complete'){return;}
+    iframe.onload=iframe.onreadystatechange=null;
+	var body=(iframe.window||iframe.contentWindow).document.body;
+	var storage=new storage(body); //或者 new storage('myName',body);
+	if(storage.support){
+		// code
+	}
+}
+iframe.src='/myPorxy.html';//使用根一级页面作为代理
 ````
 
 ## DEMO 
