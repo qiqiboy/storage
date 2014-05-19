@@ -68,8 +68,8 @@
 					this.name=name?'_'+name:'';
 					try{
 						this.userData.addBehavior("#default#userdata");
+					    this.refresh();
 					}catch(e){}
-					this.refresh();
 
 					return this;
 				},
