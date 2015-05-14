@@ -181,9 +181,9 @@
 	
 	return ROOT[NS]=Struct.init();
 	
-})(window, function self(name,proxy){
-	if(!(this instanceof self)){
-		return new self(name,proxy);
+})(window, function(name,proxy){
+	if(!(this instanceof arguments.callee)){
+		return new arguments.callee(name,proxy);
 	}
 	this.init(name,proxy);
 }, 'storage');
